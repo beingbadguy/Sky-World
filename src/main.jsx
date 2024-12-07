@@ -5,6 +5,12 @@ import App from "./App.jsx";
 import MainContext from "./Store/StoreContext.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Layout/Layout.jsx";
+import LoginPage from "./Pages/LoginPage.jsx";
+import SignupPage from "./Pages/SignupPage.jsx";
+import CartPage from "./Pages/CartPage.jsx";
+import ProductPage from "./Pages/ProductPage.jsx";
+import CategoryPage from "./Pages/CategoryPage.jsx";
+import FAQPage from "./Pages/FAQPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -27,14 +33,30 @@ const router = createBrowserRouter([
       //   path: "*",
       //   element: <NotFoundPage />,
       // },
-      // {
-      //   path: "/login",
-      //   element: <LoginPage />,
-      // },
-      // {
-      //   path: "/signup",
-      //   element: <SignupPage />,
-      // },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "/cart",
+        element: <CartPage />,
+      },
+      {
+        path: "/product/:id",
+        element: <ProductPage />,
+      },
+      {
+        path: "/categories",
+        element: <CategoryPage />,
+      },
+      {
+        path: "/faq",
+        element: <FAQPage />,
+      },
     ],
   },
 ]);

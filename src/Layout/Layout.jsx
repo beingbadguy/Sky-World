@@ -1,19 +1,56 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import OverSlider from "../Components/OverSlider";
 import { IoPaperPlaneOutline, IoSearch } from "react-icons/io5";
-import { FaRegUser } from "react-icons/fa";
+import { FaPhone, FaRegUser } from "react-icons/fa";
 import { BsCart } from "react-icons/bs";
 import PaymentGateways from "../Components/PaymentGateways";
+import AllCategories from "../Components/AllCategories";
+import { ArrowRight, ChevronRight, X } from "lucide-react";
+import { CiShop } from "react-icons/ci";
+import { BiCategory } from "react-icons/bi";
+import { MdOutlineQuestionMark } from "react-icons/md";
+import { GrContactInfo } from "react-icons/gr";
+import { LuShoppingBag } from "react-icons/lu";
 // import { AccountUserPerson } from "react-basicons";
 
 const Layout = () => {
+  const [DropDown, setShowDropdown] = useState(false);
+  const [menu, setMenu] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (menu) {
+      document.body.style.overflow = "hidden"; // Disable scrolling
+    } else {
+      document.body.style.overflow = "auto"; // Enable scrolling
+    }
+
+    // Clean up effect when component unmounts
+    return () => {
+      document.body.style.overflow = "auto"; // Ensure scrolling is enabled when the component unmounts
+    };
+  }, [menu]);
+
   return (
-    <div>
+    <div className="select-none">
+      {/* Overlay */}
+      {menu && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-40 "
+          onClick={() => setMenu(false)} // Close menu when overlay is clicked
+        />
+      )}
       <div>
         <OverSlider />
         <div className="flex items-center justify-between md:justify-between p-4 relative border-b">
-          <div className="md:hidden">
+          <div
+            className="md:hidden"
+            onClick={() => {
+              setMenu(true);
+            }}
+          >
             <svg
               width="30"
               height="30"
@@ -30,7 +67,12 @@ const Layout = () => {
               ></path>
             </svg>
           </div>
-          <div className="font-bold text-2xl">
+          <div
+            className="font-bold text-2xl cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             Sky<span className="text-blue-500">World.</span>
           </div>
           <div className="flex items-center justify-center gap-1 md:w-[40%] absolute top-[110%] w-[90%]  md:static">
@@ -44,7 +86,12 @@ const Layout = () => {
             </div>
           </div>
           <div className="flex items-center gap-2 md:gap-4">
-            <div className="flex items-center gap-2 hover:text-blue-500 cursor-pointer">
+            <div
+              className="flex items-center gap-2 hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
               <div>
                 <svg
                   width="30"
@@ -67,7 +114,12 @@ const Layout = () => {
                 <p className=" font-bold">Account & List</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 hover:text-blue-500 cursor-pointer">
+            <div
+              className="flex items-center gap-2 hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
               <div className="relative">
                 <svg
                   width="32"
@@ -96,7 +148,15 @@ const Layout = () => {
           </div>
         </div>
         <div className="p-2 border-b  shadow-sm md:flex items-center justify-between hidden ">
-          <div className="flex items-center hover:text-blue-500 cursor-pointer">
+          <div
+            className="flex items-center  cursor-pointer relative"
+            onMouseEnter={() => {
+              setShowDropdown(true);
+            }}
+            onMouseLeave={() => {
+              setShowDropdown(false);
+            }}
+          >
             <div className="">
               <svg
                 width="30"
@@ -115,12 +175,30 @@ const Layout = () => {
               </svg>
             </div>
             All Categories
+            {DropDown && (
+              <div className="absolute top-full z-[999] bg-white p-4 w-[240px]">
+                <AllCategories />
+              </div>
+            )}
           </div>
-          <ul className="flex items-center justify-center gap-3 lg:gap-10 font-bold">
+          <ul className="  flex items-center justify-center gap-6 lg:gap-10 font-bold">
             <li className="hover:text-blue-500 cursor-pointer">Shop</li>
-            <li className="hover:text-blue-500 cursor-pointer">Accessories</li>
-            <li className="hover:text-blue-500 cursor-pointer">Electronics</li>
-            <li className="hover:text-blue-500 cursor-pointer">FAQs</li>
+            <li
+              className="hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/categories");
+              }}
+            >
+              All Categories
+            </li>
+            <li
+              className="hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/faq");
+              }}
+            >
+              FAQs
+            </li>
             <li className="hover:text-blue-500 cursor-pointer">Contact Us</li>
             <li className="hover:text-blue-500 cursor-pointer">About Us</li>
           </ul>
@@ -137,7 +215,7 @@ const Layout = () => {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                class="lucide lucide-send"
+                className="lucide lucide-send"
               >
                 <path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
                 <path d="m21.854 2.147-10.94 10.939" />
@@ -145,6 +223,51 @@ const Layout = () => {
             </div>
           </div>
         </div>
+        {/* small device menu bar  */}
+
+        <ul
+          className={`${
+            menu ? "translate-x-0" : " -translate-x-[100%]"
+          } transition-all duration-500 absolute top-0 shadow-xl border  flex md:hidden items-start justify-start px-4 py-14 gap-6  flex-col font-bold z-[9999] bg-white h-full w-[70%]`}
+        >
+          <X
+            className="absolute right-4 top-5"
+            onClick={() => {
+              setMenu(false);
+            }}
+          />
+          <li className=" cursor-pointer flex items-center gap-2 w-[90%]">
+            <LuShoppingBag className="text-lg" />
+            Shop
+          </li>
+          <li
+            className=" hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]"
+            onClick={() => {
+              navigate("/categories");
+              setMenu(false);
+            }}
+          >
+            {" "}
+            <BiCategory className="text-lg" /> All Categories
+          </li>
+          <li
+            className=" hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]"
+            onClick={() => {
+              navigate("/faq");
+              setMenu(false);
+            }}
+          >
+            <MdOutlineQuestionMark className="text-lg" /> FAQs
+          </li>
+          <li className=" hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]">
+            <FaPhone className="text-lg" />
+            Contact Us
+          </li>
+          <li className="hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]">
+            {" "}
+            <GrContactInfo className="text-lg" /> About Us
+          </li>
+        </ul>
       </div>
       <div className="mt-14 md:mt-0">
         <Outlet />

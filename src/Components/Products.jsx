@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { StoreData } from "../Store/StoreContext";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const { data } = useContext(StoreData);
+  const navigate = useNavigate();
 
   return (
     <div className="m-4 py-1">
@@ -17,6 +19,9 @@ const Products = () => {
           <div
             key={category.id}
             className={` relative rounded-lg overflow-hidden ${category.bgColor} transition-all duration-500 ease-in-out cursor-pointer  flex items-center justify-center flex-col gap-4 bg-white p-6 hover:scale-90 `}
+            onClick={() => {
+              navigate(`/product/${category.id}`);
+            }}
           >
             <p className="uppercase absolute top-1 left-2 font-bold text-blue-500 text-sm">
               {category.tags[0]}

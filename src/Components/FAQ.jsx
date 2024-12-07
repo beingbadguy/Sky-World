@@ -21,7 +21,7 @@ const FAQ = () => {
             onClick={() => toggleAnswer(0)}
             className="flex justify-between items-center cursor-pointer py-3"
           >
-            <h3 className="text-xl font-medium">
+            <h3 className="md:text-xl font-medium">
               What are tablets, and how do they differ from smartphones and
               laptops?
             </h3>
@@ -42,7 +42,7 @@ const FAQ = () => {
             onClick={() => toggleAnswer(1)}
             className="flex justify-between items-center cursor-pointer py-3"
           >
-            <h3 className="text-xl font-medium">
+            <h3 className="md:text-xl font-medium">
               What types of electronics products do you offer?
             </h3>
             {isOpen === 1 ? <FaChevronUp /> : <FaChevronDown />}
@@ -61,7 +61,7 @@ const FAQ = () => {
             onClick={() => toggleAnswer(2)}
             className="flex justify-between items-center cursor-pointer py-3"
           >
-            <h3 className="text-xl font-medium">
+            <h3 className="md:text-xl font-medium">
               What payment methods do you accept?
             </h3>
             {isOpen === 2 ? <FaChevronUp /> : <FaChevronDown />}
@@ -81,7 +81,7 @@ const FAQ = () => {
             onClick={() => toggleAnswer(3)}
             className="flex justify-between items-center cursor-pointer py-3"
           >
-            <h3 className="text-xl font-medium">
+            <h3 className="md:text-xl font-medium">
               Do you offer warranties on your products?
             </h3>
             {isOpen === 3 ? <FaChevronUp /> : <FaChevronDown />}
