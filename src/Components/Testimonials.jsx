@@ -54,7 +54,7 @@ const Testimonials = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6">
           {reviews.map((review) => (
-            <div key={review.id} className="p-4 bg-white shadow-md rounded-lg">
+            <div key={review.id} className="p-4 bg-white shadow-md rounded-lg flex items-center justify-center flex-col">
               <h3 className="text-lg font-semibold text-gray-800 mb-1">
                 {review.name}
               </h3>
@@ -62,7 +62,7 @@ const Testimonials = () => {
               <p className="text-sm text-yellow-500 font-semibold mb-2">
                 {review.rating}
               </p>
-              <p className="text-gray-600">{review.feedback}</p>
+              <p className="text-gray-600 text-center">{review.feedback}</p>
             </div>
           ))}
         </div>

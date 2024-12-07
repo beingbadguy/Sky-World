@@ -5,6 +5,8 @@ import ShopByCategories from "./Components/ShopByCategories";
 import Products from "./Components/Products";
 import InfoSections from "./Components/InfoSections";
 import Testimonials from "./Components/Testimonials";
+import Banner from "./Components/Banner";
+import FAQ from "./Components/FAQ";
 
 const App = () => {
   return (
@@ -16,7 +18,9 @@ const App = () => {
         <Products />
       </div>
       <InfoSections />
+      <Banner />
       <Testimonials />
+      <FAQ />
     </h1>
   );
 };
