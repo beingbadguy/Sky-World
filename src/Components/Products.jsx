@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Products = () => {
   const { data } = useContext(StoreData);
   const navigate = useNavigate();
+  console.log(data);
 
   return (
     <div className="m-4 py-1">
@@ -18,32 +19,32 @@ const Products = () => {
         {data.map((category) => (
           <div
             key={category.id}
-            className={` relative rounded-lg overflow-hidden ${category.bgColor} transition-all duration-500 ease-in-out cursor-pointer  flex items-center justify-center flex-col gap-4 bg-white p-6 hover:scale-90 `}
+            className={` relative rounded-lg overflow-hidden ${category.bgColor} transition-all duration-500 ease-in-out cursor-pointer  flex justify-center items-center sm:items-center sm:justify-start flex-col gap-4 md:p-3  border border-gray-200 `}
             onClick={() => {
               navigate(`/product/${category.id}`);
             }}
           >
-            <p className="uppercase absolute top-1 left-2 font-bold text-blue-500 text-sm">
-              {category.tags[0]}
-            </p>
+            <div className="bg-blue-500 p-1 absolute top-0 left-0 text-white text-sm">
+              {category.tags[0].toUpperCase()}
+            </div>
             <img
               src={category.img}
               alt={category.name}
-              className="object-cover w-48 h-48 rounded "
+              className="object-cover h-48 w-52  rounded "
             />
-            <div className=" text-center flex items-start justify-start text-lg font-bold text-black ">
+            <div className=" text-start flex items-start justify-start text-sm sm:text-lg font-bold text-black h-10 md:h-16 ">
               {category.name}
             </div>
             <div className="flex gap-2 items-center">
-              <div className=" text-center flex items-center justify-center text-sm font-bold text-black ">
+              <div className="  text-start flex items-start justify-start text-sm  font-bold text-black  ">
                 ₹{category.price}
               </div>
               <div className=" text-center flex items-center justify-center text-sm font-bold text-red-500 line-through ">
                 ₹{category.original_price}
               </div>
             </div>
-            <div className="bg-blue-500 w-full flex items-center justify-center p-2 text-white font-bold rounded hover:bg-black transition-all duration-500">
-              Buy Now
+            <div className="bg-blue-500 w-full flex items-center justify-center p-1 text-white font-bold rounded hover:bg-black transition-all duration-500">
+              View Now
             </div>
           </div>
         ))}

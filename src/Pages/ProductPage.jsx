@@ -1,9 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import {
+  FaHeart,
+  FaShoppingCart,
+  FaTimes,
+  FaSearchPlus,
+  FaSearchMinus,
+} from "react-icons/fa";
 import { MdChevronRight } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { StoreData } from "../Store/StoreContext";
 import { CiBookmark, CiMail } from "react-icons/ci";
+import { GoPlus } from "react-icons/go";
+import { AiOutlineMinus } from "react-icons/ai";
+import { TfiClose } from "react-icons/tfi";
 
 const ProductPage = () => {
   const { data } = useContext(StoreData);
@@ -11,6 +20,8 @@ const ProductPage = () => {
   const { id } = useParams();
   const [isWishlist, setIsWishlist] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [zoom, setZoom] = useState(1);
 
   const product = data.find((pro) => pro.id === parseInt(id));
   const suggestedProducts = data.filter((pro) => pro.id !== parseInt(id));
@@ -23,10 +34,6 @@ const ProductPage = () => {
     alert(`${product.name} (x${quantity}) has been added to your cart!`);
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
-
   const increaseQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
@@ -35,8 +42,61 @@ const ProductPage = () => {
     if (quantity > 1) setQuantity((prev) => prev - 1);
   };
 
+  const toggleOverlay = () => {
+    setShowOverlay(!showOverlay);
+    setZoom(1); // Reset zoom level when overlay is toggled
+  };
+
+  const zoomIn = () => {
+    setZoom((prevZoom) => prevZoom + 0.1);
+  };
+
+  const zoomOut = () => {
+    if (zoom > 1) setZoom((prevZoom) => prevZoom - 0.1);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   return (
     <div className="min-h-screen">
+      {/* Overlay */}
+      {showOverlay && (
+        <div className="fixed z-50 top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center">
+          <div className="relative">
+            <img
+              src={product.img}
+              alt={product.name}
+              style={{ transform: `scale(${zoom})` }}
+              className="max-w-[90vw] max-h-[90vh] object-contain transition-transform duration-300"
+            />
+            <button
+              onClick={toggleOverlay}
+              className="absolute top-4 right-4 bg-gray-100 text-black p-2 rounded-full hover:bg-gray-200 transition"
+            >
+              <TfiClose size={20} />
+            </button>
+            <div className="absolute bottom-4 right-4 flex gap-4">
+              <button
+                onClick={zoomOut}
+                className={`${
+                  zoom > 1 ? "" : "hidden"
+                } bg-gray-100 text-black flex items-center justify-center p-2 rounded-full hover:bg-gray-300 transition`}
+              >
+                <AiOutlineMinus />
+              </button>
+              <button
+                onClick={zoomIn}
+                className="bg-gray-100 text-black flex items-center justify-center p-2 rounded-full hover:bg-gray-300 transition"
+              >
+                <GoPlus />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Breadcrumb Navigation */}
       <div className="flex items-center gap-1 p-4 bg-gray-100">
         <p
@@ -58,7 +118,8 @@ const ProductPage = () => {
           <img
             src={product.img}
             alt={product.name}
-            className="w-full rounded-lg shadow-md"
+            className="w-full rounded-lg shadow-md cursor-pointer"
+            onClick={toggleOverlay}
           />
         </div>
 
@@ -81,8 +142,13 @@ const ProductPage = () => {
             </span>
           </div>
           <div className="flex gap-2 ">
-            {product.tags.map((tag,index) => (
-              <span key={index} className="text-gray-500 text-sm bg-blue-100 p-1 my-4">{tag}</span>
+            {product.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="text-gray-500 text-sm bg-blue-100 p-1 my-4"
+              >
+                {tag}
+              </span>
             ))}
           </div>
           <div className="flex gap-3">
@@ -148,28 +214,37 @@ const ProductPage = () => {
       {/* Suggested Products */}
       <div className="p-6 mt-6">
         <h2 className="text-2xl font-semibold mb-4">You May Also Like</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {suggestedProducts.map((suggested) => (
+        <div className="grid grid-cols-2  md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-10">
+          {suggestedProducts.map((category) => (
             <div
-              key={suggested.id}
-              className="border rounded-md p-4 flex flex-col items-center text-center cursor-pointer"
-              onClick={() => navigate(`/product/${suggested.id}`)}
+              key={category.id}
+              className={` relative rounded-lg overflow-hidden ${category.bgColor} transition-all duration-500 ease-in-out cursor-pointer  flex justify-center items-center sm:items-center sm:justify-start flex-col gap-4 md:p-3   border border-gray-200 `}
+              onClick={() => {
+                navigate(`/product/${category.id}`);
+              }}
             >
+              <div className="bg-blue-500 p-1 absolute top-0 left-0 text-white text-sm">
+                {category.tags[0].toUpperCase()}
+              </div>
               <img
-                src={suggested.img}
-                alt={suggested.name}
-                className="w-32 h-32 object-cover mb-4 rounded-md"
+                src={category.img}
+                alt={category.name}
+                className="object-cover h-48 w-52  rounded "
               />
-              <h3 className="font-medium text-gray-800">{suggested.name}</h3>
-              <p className="text-blue-500 font-bold">
-                ${suggested.price.toFixed(2)}
-              </p>
-              <button
-                onClick={() => navigate(`/product/${suggested.id}`)}
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all"
-              >
-                View Product
-              </button>
+              <div className=" text-start flex items-start justify-start text-sm sm:text-lg font-bold text-black h-10 md:h-16 ">
+                {category.name}
+              </div>
+              <div className="flex gap-2 items-center">
+                <div className="  text-start flex items-start justify-start text-sm  font-bold text-black  ">
+                  ₹{category.price}
+                </div>
+                <div className=" text-center flex items-center justify-center text-sm font-bold text-red-500 line-through ">
+                  ₹{category.original_price}
+                </div>
+              </div>
+              <div className="bg-blue-500 w-full flex items-center justify-center p-1 text-white font-bold rounded hover:bg-blue-600 transition-all duration-500">
+                View Now
+              </div>
             </div>
           ))}
         </div>
