@@ -12,6 +12,7 @@ import { BiCategory } from "react-icons/bi";
 import { MdOutlineQuestionMark } from "react-icons/md";
 import { GrContactInfo } from "react-icons/gr";
 import { LuShoppingBag } from "react-icons/lu";
+import { CgTrack } from "react-icons/cg";
 // import { AccountUserPerson } from "react-basicons";
 
 const Layout = () => {
@@ -182,7 +183,18 @@ const Layout = () => {
             )}
           </div>
           <ul className="  flex items-center justify-center gap-6 lg:gap-10 font-bold">
-            <li className="hover:text-blue-500 cursor-pointer">Shop</li>
+            <li
+              className="hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/");
+                window.scrollTo({
+                  top: 1100,
+                  behavior: "smooth",
+                });
+              }}
+            >
+              Shop
+            </li>
             <li
               className="hover:text-blue-500 cursor-pointer"
               onClick={() => {
@@ -199,8 +211,22 @@ const Layout = () => {
             >
               FAQs
             </li>
-            <li className="hover:text-blue-500 cursor-pointer">Contact Us</li>
-            <li className="hover:text-blue-500 cursor-pointer">About Us</li>
+            <li
+              className="hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/contact");
+              }}
+            >
+              Contact Us
+            </li>
+            <li
+              className="hover:text-blue-500 cursor-pointer"
+              onClick={() => {
+                navigate("/about");
+              }}
+            >
+              About Us
+            </li>
           </ul>
           <div className="flex items-center justify-center gap-1 hover:text-blue-500 cursor-pointer">
             Track Your Order
@@ -236,7 +262,14 @@ const Layout = () => {
               setMenu(false);
             }}
           />
-          <li className=" cursor-pointer flex items-center gap-2 w-[90%]">
+          <li
+            className="hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]"
+            onClick={() => {
+              navigate("/");
+              window.scrollTo(0, 1100);
+              setMenu(false);
+            }}
+          >
             <LuShoppingBag className="text-lg" />
             Shop
           </li>
@@ -259,13 +292,37 @@ const Layout = () => {
           >
             <MdOutlineQuestionMark className="text-lg" /> FAQs
           </li>
-          <li className=" hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]">
+          <li
+            className=" hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]"
+            onClick={() => {
+              navigate("/contact");
+              setMenu(false);
+            }}
+          >
             <FaPhone className="text-lg" />
             Contact Us
           </li>
-          <li className="hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]">
+          <li
+            className="hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]"
+            onClick={() => {
+              navigate("/about");
+              setMenu(false);
+            }}
+          >
             {" "}
             <GrContactInfo className="text-lg" /> About Us
+          </li>
+
+          <li
+            className="hover:text-blue-500 cursor-pointer flex items-center gap-2 w-[90%]"
+            onClick={() => {
+              setMenu(false);
+              alert("Not created this function yet");
+            }}
+          >
+            {" "}
+            <CgTrack className="text-lg" />
+            Track Your Order
           </li>
         </ul>
       </div>

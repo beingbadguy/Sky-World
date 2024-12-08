@@ -11,6 +11,10 @@ import CartPage from "./Pages/CartPage.jsx";
 import ProductPage from "./Pages/ProductPage.jsx";
 import CategoryPage from "./Pages/CategoryPage.jsx";
 import FAQPage from "./Pages/FAQPage.jsx";
+import AboutUs from "./Pages/AboutUs.jsx";
+import { Contact } from "lucide-react";
+import ContactUs from "./Pages/Contact.jsx";
+import FilterPage from "./Pages/FilterPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,14 +25,18 @@ const router = createBrowserRouter([
         path: "/",
         element: <App />,
       },
-      // {
-      //   path: "/about",
-      //   element: <AboutPage />,
-      // },
-      // {
-      //   path: "/contact",
-      //   element: <ContactPage />,
-      // },
+      {
+        path: "/about",
+        element: <AboutUs />,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs />,
+      },
+      {
+        path: "/filter",
+        element: <FilterPage />,
+      },
       // {
       //   path: "*",
       //   element: <NotFoundPage />,
